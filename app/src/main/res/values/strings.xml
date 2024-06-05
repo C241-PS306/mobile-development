@@ -9,9 +9,9 @@
     <string name="login">Login</string>
     <string name="sign_up">Don\'t have an account? Register</string>
     <string name="register">Register</string>
-    <string name="title_signup_page">Lengkapi Datamu Dibawah Ini</string>
+    <string name="title_signup_page">Complete your data below</string>
     <string name="name">Name</string>
-    <string name="sign_in">Sudah punya akun?Login</string>
+    <string name="sign_in">already have an account? Login</string>
     <string name="logo_description">Logo</string>
     <string name="title_mitra">Mitra</string>
     <string name="title_panti">Panti Asuhan</string>
@@ -30,4 +30,18 @@
     <string name="failed_title">Failed</string>
     <string name="try_again">Try Again</string>
     <string name="continue_title">Continue</string>
+    <string name="title_detection">Detection</string>
+    <string name="deteksi">Detection</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="analyze">Analyze</string>
+    <string name="result">Result</string>
+    <string name="save">Save</string>
+    <string name="back_button_description">Back</string>
+    <string name="help">Help Center</string>
+    <string name="how_to_donate_title">Bagaimana cara untuk melakukan donasi baju yang layak pakai?</string>
+    <string name="how_to_donate_description">Jika anda sudah mendapatkan hasil analisis dari deteksi baju dan hasilnya dinyatakan layak pakai. Maka langkah selanjutnya yang anda lakukan adalah menghubungi pihak panti dari list panti yang sudah tersedia.</string>
+    <string name="how_to_recycle_title">Jika baju tidak layak pakai, apa yang harus dilakukan?</string>
+    <string name="how_to_recycle_description">Kami mempunyai mitra pengolahan daur ulang limbah pakaian. Jika hasil analisis dinyatakan tidak layak pakai maka anda bisa menghubungi mitra kami untuk mengirimkan baju tersebut agar bisa di daur ulang kembali.</string>
+
 </resources>
