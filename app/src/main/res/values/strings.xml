@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">WearShare</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_login_page">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Don\'t have an account? Register</string>
+    <string name="register">Register</string>
+    <string name="title_signup_page">Lengkapi Datamu Dibawah Ini</string>
+    <string name="name">Name</string>
+    <string name="sign_in">Sudah punya akun?Login</string>
+    <string name="logo_description">Logo</string>
+    <string name="title_mitra">Mitra</string>
+    <string name="title_panti">Panti Asuhan</string>
+    <string name="nama_panti">Name</string>
+    <string name="deskripsi">Description</string>
+    <string name="lokasi">Location</string>
+    <string name="isi_deskripsi">Mitra pengolahan limbah baju adalah tempat untuk menangani pakaian bekas yang tidak layak, dengan tujuan mengurangi dampak negatif terhadap lingkungan dan memaksimalkan penggunaan kembali atau daur ulang bahan.</string>
+    <string name="title_riwayat">History</string>
+    <string name="there_is_no_history">No History</string>
+    <string name="hasil_analysis">Hasil Analysis</string>
+    <string name="title_bantuan">Help Center</string>
+    <string name="title_profile">Profile</string>
+    <string name="error_empty_field">Can not be empty</string>
+    <string name="error_short_password">Password must not be less than 8 characters</string>
+    <string name="success_title">Success</string>
+    <string name="failed_title">Failed</string>
+    <string name="try_again">Try Again</string>
+    <string name="continue_title">Continue</string>
+</resources>
