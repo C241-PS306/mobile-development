@@ -48,6 +48,10 @@ class RegisterActivity : AppCompatActivity() {
                     else -> register()
                 }
             }
+
+            accLogin.setOnClickListener {
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            }
         }
         playAnimation()
 
@@ -143,8 +147,6 @@ class RegisterActivity : AppCompatActivity() {
             startDelay = 100
         }.start()
     }
-
-
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
