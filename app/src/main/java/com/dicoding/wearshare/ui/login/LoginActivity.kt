@@ -14,6 +14,7 @@ import com.dicoding.wearshare.R
 import com.dicoding.wearshare.data.pref.ResultValue
 import com.dicoding.wearshare.data.pref.UserModel
 import com.dicoding.wearshare.databinding.ActivityLoginBinding
+import com.dicoding.wearshare.ui.register.RegisterActivity
 import com.dicoding.wearshare.ui.viewmodel.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
@@ -46,6 +47,9 @@ class LoginActivity : AppCompatActivity() {
 
                     else -> login()
                 }
+            }
+            tvSignup.setOnClickListener {
+                startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
         }
 
@@ -134,7 +138,7 @@ class LoginActivity : AppCompatActivity() {
         title: String,
         message: String,
         textButton: String,
-        targetActivity: Class<*>? = LoginActivity::class.java,
+        targetActivity: Class<*>? = null,
         extra: String? = null
     ) {
         AlertDialog.Builder(this).apply {
