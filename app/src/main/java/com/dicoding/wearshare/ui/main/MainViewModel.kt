@@ -12,6 +12,8 @@ class MainViewModel(
     private val userRepository: UserRepository,
 ) : ViewModel() {
 
+    fun login(email: String, password: String) = userRepository.login(email, password)
+
     fun getSession(): LiveData<UserModel> {
         return userRepository.getSession().asLiveData()
     }

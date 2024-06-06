@@ -138,7 +138,7 @@ class LoginActivity : AppCompatActivity() {
         title: String,
         message: String,
         textButton: String,
-        targetActivity: Class<*>? = null,
+        targetActivity: Class<*>? = LoginActivity::class.java,
         extra: String? = null
     ) {
         AlertDialog.Builder(this).apply {
