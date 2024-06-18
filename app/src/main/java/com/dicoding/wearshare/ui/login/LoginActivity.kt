@@ -5,7 +5,9 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -24,25 +26,28 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        progressBar = binding.progressBar
+
         with(binding){
             loginButton.setOnClickListener {
                 when{
-                    binding.edLoginEmail.text.toString().isEmpty() -> {
-                        binding.edLoginEmail.error = getString(R.string.error_empty_field)
+                    edLoginEmail.text.toString().isEmpty() -> {
+                        edLoginEmail.error = getString(R.string.error_empty_field)
                     }
 
-                    binding.edLoginPassword.text.toString().isEmpty() -> {
-                        binding.edLoginPassword.error = getString(R.string.error_empty_field)
+                    edLoginPassword.text.toString().isEmpty() -> {
+                        edLoginPassword.error = getString(R.string.error_empty_field)
                     }
 
-                    binding.edLoginPassword.text.toString().length < 8 -> {
-                        binding.edLoginPassword.error = getString(R.string.error_short_password)
+                    edLoginPassword.text.toString().length < 8 -> {
+                        edLoginPassword.error = getString(R.string.error_short_password)
                     }
 
                     else -> login()
@@ -87,9 +92,6 @@ class LoginActivity : AppCompatActivity() {
         }.start()
     }
 
-
-
-
     private fun login() {
         val email = binding.edLoginEmail.text.toString()
         val password = binding.edLoginPassword.text.toString()
@@ -102,24 +104,23 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     is ResultValue.Success -> {
-                        viewModel.saveSession(UserModel(email, result.data.loginResult.token))
+                        val username = result.data.user.username.toString() // Convert to String if necessary
+                        viewModel.saveSession(UserModel(email, result.data.user.password))
+                        showLoading(false)
                         showAlertDialog(
                             getString(R.string.success_title),
-                            result.data.message,
+                            getString(R.string.success_title),
                             getString(R.string.continue_title),
-                            MainActivity::class.java,
-                            result.data.loginResult.name
+                            MainActivity::class.java, username
                         )
-                        showLoading(false)
                     }
 
                     is ResultValue.Error -> {
+                        Log.e("LoginActivity", "Error: ${result.error}")
                         showAlertDialog(
                             getString(R.string.failed_title),
                             result.error,
-                            getString(R.string.try_again),
-                            MainActivity::class.java,
-                            ""
+                            getString(R.string.try_again)
                         )
                         showLoading(false)
                     }
@@ -128,28 +129,36 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateToMainActivity(userName: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("name", userName)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
+    }
+
     companion object {
         val emailRegex: Regex = Regex("^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+\$")
     }
-
-
 
     private fun showAlertDialog(
         title: String,
         message: String,
         textButton: String,
-        targetActivity: Class<*>? = LoginActivity::class.java,
-        extra: String? = null
+        targetActivity: Class<*>? = null,
+        userName: String? = null
     ) {
         AlertDialog.Builder(this).apply {
             setTitle(title)
             setMessage(message)
             setPositiveButton(textButton) { _, _ ->
-                val intent = Intent(this@LoginActivity, targetActivity)
-                intent.putExtra("name", extra)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-                finish()
+                targetActivity?.let {
+                    val intent = Intent(this@LoginActivity, it).apply {
+                        userName?.let { name -> putExtra("name", name) }
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
+                    startActivity(intent)
+                }
             }
             create()
             show()

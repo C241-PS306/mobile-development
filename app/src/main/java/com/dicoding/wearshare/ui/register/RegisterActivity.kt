@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.dicoding.wearshare.R
@@ -21,27 +22,27 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityRegisterBinding
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        progressBar = binding.progressBar
+
         with(binding) {
             signupButton.setOnClickListener {
-                when{
-                    binding.edRegisterName.text.toString().isEmpty()-> {
+                when {
+                    binding.edRegisterName.text.toString().isEmpty() -> {
                         binding.edRegisterName.error = getString(R.string.error_empty_field)
                     }
-
                     binding.edRegisterEmail.text.toString().isEmpty() -> {
                         binding.edRegisterEmail.error = getString(R.string.error_empty_field)
                     }
-
                     binding.edRegisterPassword.text.toString().isEmpty() -> {
                         binding.edRegisterPassword.error = getString(R.string.error_empty_field)
                     }
-
                     binding.edRegisterPassword.text.toString().length < 8 -> {
                         binding.edRegisterPassword.error = getString(R.string.error_short_password)
                     }
@@ -54,40 +55,43 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         playAnimation()
-
     }
 
     private fun register() {
-        val name = binding.edRegisterName.text.toString()
+
+        val username = binding.edRegisterName.text.toString()
         val email = binding.edRegisterEmail.text.toString()
         val password = binding.edRegisterPassword.text.toString()
 
-        viewModel.register(name, email, password)
-            .observe(this@RegisterActivity) { result ->
+        viewModel.register(username, email, password)
+            .observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is ResultValue.Loading -> {
                             showLoading(true)
                         }
-
                         is ResultValue.Success -> {
+                            showLoading(false)
                             showAlertDialog(
                                 getString(R.string.success_title),
                                 result.data.toString(),
                                 getString(R.string.login),
                                 LoginActivity::class.java
                             )
-                            showLoading(false)
                         }
-
                         is ResultValue.Error -> {
-                            showAlertDialog(getString(R.string.failed_title), result.error, getString(R.string.try_again))
                             showLoading(false)
+                            showAlertDialog(
+                                getString(R.string.failed_title),
+                                result.error,
+                                getString(R.string.try_again)
+                            )
                         }
                     }
                 }
             }
     }
+
 
     private fun showAlertDialog(
         title: String,
@@ -108,8 +112,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 6000
@@ -117,21 +119,20 @@ class RegisterActivity : AppCompatActivity() {
             repeatMode = ObjectAnimator.REVERSE
         }.start()
 
-        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(100)
+        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(500)
         val nameTextView =
-            ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(100)
+            ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(500)
         val nameEditTextLayout =
-            ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(100)
+            ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(500)
         val emailTextView =
-            ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(100)
+            ObjectAnimator.ofFloat(binding.emailTextView, View.ALPHA, 1f).setDuration(500)
         val emailEditTextLayout =
-            ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(100)
+            ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(500)
         val passwordTextView =
-            ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(100)
+            ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(500)
         val passwordEditTextLayout =
-            ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
-        val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(100)
-
+            ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(500)
 
         AnimatorSet().apply {
             playSequentially(
@@ -147,9 +148,8 @@ class RegisterActivity : AppCompatActivity() {
             startDelay = 100
         }.start()
     }
-
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
 }
+

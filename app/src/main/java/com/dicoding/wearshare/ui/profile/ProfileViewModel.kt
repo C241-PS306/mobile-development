@@ -1,13 +1,22 @@
 package com.dicoding.wearshare.ui.profile
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.dicoding.wearshare.data.pref.UserModel
+import com.dicoding.wearshare.data.repo.UserRepository
+import kotlinx.coroutines.launch
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+    fun getUserSession(): LiveData<UserModel> {
+        return userRepository.getSession().asLiveData()
     }
-    val text: LiveData<String> = _text
+
+    fun logout() {
+        viewModelScope.launch {
+            userRepository.logout()
+        }
+    }
 }
