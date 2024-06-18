@@ -15,6 +15,12 @@
         android:theme="@style/Theme.WearShare"
         tools:targetApi="31">
         <activity
+            android:name=".ui.splashscreen.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.kebijakanprivasi.KebijakanPrivasiActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detailmitra.DetailMitraActivity"
             android:exported="false" />
         <activity
