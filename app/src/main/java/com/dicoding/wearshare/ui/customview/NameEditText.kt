@@ -1,7 +1,6 @@
 package com.dicoding.wearshare.ui.customview
 
 import android.content.Context
-import android.graphics.Canvas
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -10,7 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 
-class NameEditText : AppCompatEditText, View.OnTouchListener{
+class NameEditText : AppCompatEditText, View.OnTouchListener {
     constructor(context: Context) : super(context) {
         init()
     }
@@ -19,22 +18,16 @@ class NameEditText : AppCompatEditText, View.OnTouchListener{
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
-    {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init()
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+    private fun init() {
         hint = " Masukkan nama Anda"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
         maxLines = 1
         inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
-    }
 
-
-
-    private fun init() {
         setOnTouchListener(this)
 
         addTextChangedListener(object : TextWatcher {
@@ -56,7 +49,4 @@ class NameEditText : AppCompatEditText, View.OnTouchListener{
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         return false
     }
-
 }
-
-

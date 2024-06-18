@@ -1,11 +1,9 @@
 package com.dicoding.wearshare.ui.customview
 
 import android.content.Context
-import android.graphics.Canvas
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -15,6 +13,7 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
     constructor(context: Context) : super(context) {
         init()
     }
+
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
@@ -28,7 +27,13 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
     }
 
     private fun init() {
+        hint = "masukkan password"
+        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        maxLines = 1
+
         setOnTouchListener(this)
+
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -46,15 +51,7 @@ class PasswordEditText : AppCompatEditText, View.OnTouchListener {
         })
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-        hint = "masukkan password"
-        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-    }
-
-
     override fun onTouch(v: View?, event: MotionEvent): Boolean {
         return false
     }
-
 }
