@@ -12,7 +12,7 @@ class BantuanActivity : AppCompatActivity() {
         binding = ActivityBantuanBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.icBack.setOnClickListener {
+        binding.ivActionBack.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
     }
