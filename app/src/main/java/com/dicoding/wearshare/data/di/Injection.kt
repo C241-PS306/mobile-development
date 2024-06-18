@@ -12,4 +12,10 @@ object Injection {
         val apiService = ApiConfig.getApiService()
         return UserRepository.getInstance(apiService,pref)
     }
+
+    fun providePantiRepository(): PantiRepository {
+        val apiService = ApiConfig.getApiService()
+        return PantiRepository(apiService)
+    }
 }
+

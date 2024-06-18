@@ -1,12 +1,12 @@
 package com.dicoding.wearshare.data.repo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.dicoding.wearshare.data.api.ApiService
 import com.dicoding.wearshare.data.pref.ResultValue
 import com.dicoding.wearshare.data.pref.UserModel
 import com.dicoding.wearshare.data.pref.UserPreference
-import com.dicoding.wearshare.data.response.ErrorResponse
 import com.dicoding.wearshare.data.response.LoginResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -29,34 +29,40 @@ class UserRepository private constructor(
         instance = null
     }
 
-
-    fun register(name: String, email: String, password: String): LiveData<ResultValue<Any>> {
+    fun register(username: String, email: String, password: String): LiveData<ResultValue<Any>> {
         return liveData {
             emit(ResultValue.Loading)
             try {
-                val successResponse = apiService.register(name, email, password).message
+                val successResponse = apiService.register(username, email, password).message
                 emit(ResultValue.Success(successResponse))
             } catch (e: HttpException) {
                 val jsonInString = e.response()?.errorBody()?.string()
-                val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-                emit(ResultValue.Error(errorBody.message ?: "Unknown error")) // Emit error result
+                val errorMessage = Gson().fromJson(jsonInString, String::class.java)
+                Log.e("UserRepository", "HttpException: $errorMessage")
+                emit(ResultValue.Error(errorMessage ?: "Unknown error"))
+            } catch (e: Exception) {
+                Log.e("UserRepository", "Exception: ${e.message}")
+                emit(ResultValue.Error("An error occurred"))
             }
         }
     }
 
-    fun login(email: String, password: String) = liveData {
-        emit(ResultValue.Loading)
-        try {
-            val successResponse = apiService.login(email, password)
-            emit(ResultValue.Success(successResponse))
-        } catch (e: HttpException) {
-            val jsonInString = e.response()?.errorBody()?.string()
-            val errorBody = Gson().fromJson(jsonInString, LoginResponse::class.java)
-            errorBody?.message?.let { ResultValue.Error(it) }?.let { emit(it) }
+    fun login(email: String, password: String): LiveData<ResultValue<LoginResponse>> {
+        return liveData {
+            emit(ResultValue.Loading)
+            try {
+                val successResponse = apiService.login(email, password)
+                emit(ResultValue.Success(successResponse))
+            } catch (e: HttpException) {
+                val errorMessage = e.response()?.errorBody()?.string()
+                Log.e("UserRepository", "HttpException: $errorMessage")
+                emit(ResultValue.Error(errorMessage ?: "Unknown error"))
+            } catch (e: Exception) {
+                Log.e("UserRepository", "Exception: ${e.message}")
+                emit(ResultValue.Error("An error occurred"))
+            }
         }
     }
-
-
 
     companion object {
         @Volatile

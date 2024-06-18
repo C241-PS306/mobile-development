@@ -1,9 +1,7 @@
 package com.dicoding.wearshare.ui.customview
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatButton
@@ -26,20 +24,15 @@ class LoginButton : AppCompatButton {
     ) {
         init()
     }
+
     private var txtColor: Int = 0
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+    private fun init() {
+        txtColor = ContextCompat.getColor(context, android.R.color.background_light)
         setTextColor(txtColor)
         textSize = 12f
         typeface = Typeface.DEFAULT_BOLD
         gravity = Gravity.CENTER
         text = if (isEnabled) "Login" else "Invalid data!"
-    }
-
-
-    private fun init() {
-        txtColor = ContextCompat.getColor(context, android.R.color.background_light)
-//        setBackgroundResource(R.drawable.rounded_button)
     }
 }
